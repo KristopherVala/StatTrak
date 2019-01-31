@@ -1,0 +1,91 @@
+﻿@model WebsiteV3.Controllers.GameDataBase
+
+@{
+    ViewBag.Title = "AddData";
+}
+<style>
+  body {
+        background-image: url('/ImgAssets/fresh_snow.png');
+        background-attachment: fixed;
+        background-color: transparent;
+    }
+     </style>
+<br /><br />
+
+<div style="width:100%;padding-left:32%">
+    <img src="@Model.GameArt" alt="GameLogo" style="width:400px;height:230px;align-content:center;max-height:100%;max-width:100%;" />
+           
+</div>
+<br />
+<h2 style="text-align:center;">Please enter your data for @Model.GameName</h2>
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal" style="text-align:center;">
+     
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <h4>@Model.Category1</h4>
+
+            <div class="col-md-10" style="padding-left:37%;">
+                @Html.EditorFor(model => model.Data1, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Data1, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <h4>@Model.Category2</h4>
+
+            <div class="col-md-10" style="padding-left:37%;">
+                @Html.EditorFor(model => model.Data2, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Data2, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <h4>@Model.Category3</h4>
+
+            <div class="col-md-10" style="padding-left:37%;">
+                @Html.EditorFor(model => model.Data3, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Data3, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <h4>@Model.Category4</h4>
+
+            <div class="col-md-10" style="padding-left:37%;">
+                @Html.EditorFor(model => model.Data4, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Data4, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+ 
+        <div class="form-group">
+            <div class="col-md-10" style="padding-left:18%;">
+                <input type="submit" value="Add Stats!" class="btn btn-default" />
+            </div>
+        </div>
+        <div style="text-align:left;">
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    </div>
+
+    <div class="form-group" style="visibility:hidden">
+        @Html.LabelFor(model => model.GameId, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.GameId, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.GameId, "", new { @class = "text-danger" })
+
+        </div>
+    </div>
+}
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

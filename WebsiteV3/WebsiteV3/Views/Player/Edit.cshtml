@@ -1,0 +1,116 @@
+﻿@model WebsiteV3.Controllers.PlayerBase
+
+@{
+    ViewBag.Title = "Edit";
+}
+<style>
+    p, h3, h2, td, tr {
+        color: black;
+        font-family: 'Segoe UI';
+    }
+
+    body {
+        background-image: url('/ImgAssets/fresh_snow.png');
+        background-attachment: fixed;
+        background-color: transparent;
+    }
+</style>
+
+<div class="container">
+
+    <div>
+        <br />
+        <br />
+        <h2 style="text-align:center">Edit @Html.DisplayFor(model => model.DisplayName) information</h2>
+        <hr />
+        <div style="width:45%;height:300px;float:left;">
+            <center>
+                <img src="@Model.ProfilePhoto" alt="" style="width: 350px;height:250px; align-content:center;max-height:100%;max-width:100%;" />
+            </center>
+
+        </div>
+
+    </div>
+    <div style="width:55%;">
+        &nbsp;
+        <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+
+
+
+    </div>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.DisplayName, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.DisplayName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.DisplayName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Age, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Age, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Age, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+       
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ProfilePhoto, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.ProfilePhoto, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.ProfilePhoto, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+          
+            </div>
+            @Html.HiddenFor(model => model.Password)
+
+            @Html.HiddenFor(model=> model.Role)
+            @Html.HiddenFor(model => model.LastLoginDate)
+            @Html.HiddenFor(model => model.Id)
+            @Html.HiddenFor(model => model.gameName)
+
+
+
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Save" class="btn btn-default" />
+                </div>
+            </div>
+    }
+
+    <div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>
+    </div>
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }

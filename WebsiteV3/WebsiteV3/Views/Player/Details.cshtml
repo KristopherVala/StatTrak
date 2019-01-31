@@ -1,0 +1,184 @@
+﻿@using System.Data.Entity;
+@using Microsoft.AspNet.Identity
+@using Microsoft.AspNet.Identity.EntityFramework;
+@using System;
+@using WebsiteV3.Models
+
+@model WebsiteV3.Controllers.PlayerView
+@{
+    ViewBag.Title = "Details";
+}
+<style>
+    body {
+        background-image: url('/ImgAssets/fresh_snow.png');
+        background-attachment: fixed;
+        background-color: transparent;
+    }
+
+    p, h3, h2, td, tr, h1 {
+        color: black;
+        font-family: 'Segoe UI';
+    }
+
+
+    .tab {
+        overflow: hidden;
+        border: 1px solid #ccc;
+        background-color: #f1f1f1;
+    }
+
+        /* Style the buttons inside the tab */
+        .tab button {
+            background-color: inherit;
+            float: left;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 14px 16px;
+            transition: 0.3s;
+            font-size: 17px;
+            font-family: 'Segoe UI';
+        }
+
+            /* Change background color of buttons on hover */
+            .tab button:hover {
+                background-color: #ddd;
+            }
+
+            /* Create an active/current tablink class */
+            .tab button.active {
+                background-color: #ccc;
+            }
+
+    /* Style the tab content */
+    .tabcontent {
+        display: none;
+        padding: 6px 12px;
+        border: 1px solid #ccc;
+        border-top: none;
+    }
+       .table-responsive .table {
+    max-width: none;
+    -webkit-overflow-scrolling: touch;
+}
+</style>
+<br>
+
+        <div class="col-12 col-lg-12">
+            <div>
+                <br />
+                <h2 style="text-align:center"> @Html.DisplayFor(model => model.DisplayName)</h2>
+                <hr />
+                <div style="width:45%;height:300px;float:left;">
+                    <center>
+                        @if (@Model.ProfilePhoto.Equals("default"))
+                        {
+                            <img src="~/ImgAssets/defaultprofile.png" alt="No Photo Available" style="width: 350px;height:250px;max-height:100%;max-width:100%;" />
+                        }
+                        else
+                        {
+                            <img src="@Model.ProfilePhoto" alt="" style="width: 350px;height:250px; align-content:center;max-height:100%;max-width:100%;" />
+                        }
+                    </center>
+                </div>
+
+                <div style="width:45%; height:300px;float:right;">
+                    <p> <b> @Html.DisplayNameFor(model => model.DisplayName)</b> :  @Html.DisplayFor(model => model.DisplayName)</p>
+                    <p><b>  @Html.DisplayNameFor(model => model.FirstName) </b> : @Html.DisplayFor(model => model.FirstName)  </p>
+                    <p> <b>  @Html.DisplayNameFor(model => model.LastName) </b> : @Html.DisplayFor(model => model.LastName) </p>
+                    <p> <b> @Html.DisplayNameFor(model => model.Age)  </b>: @Html.DisplayFor(model => model.Age)     </p>
+
+                </div>
+                <div style="width:10%;">
+                    &nbsp;
+                </div>
+
+            </div>
+            <h4 style="text-align:center;">Personal Stats</h4>
+            <div class="tab">
+                @foreach (var p in Model.GameDatas)
+            {
+                    <button class="tablinks" onclick="openData(event, '@p.GameName')" id="default"> <b> @Html.DisplayFor(model => p.GameName) </b> </button>
+                }
+            </div>
+            @foreach (var p in Model.GameDatas)
+            {
+                <div id="@p.GameName" class="tabcontent">
+
+                    <table class="table" style="table-layout:fixed;">
+                        <tr style="font-size:20px;color:black">
+                            <th>
+                                @Html.DisplayFor(model => p.GameCategory1)
+                            </th>
+                            <th>
+                                @Html.DisplayFor(model => p.GameCategory2)
+                            </th>
+                            <th>
+                                @Html.DisplayFor(model => p.GameCategory3)
+                            </th>
+                            <th>
+                                @Html.DisplayFor(model => p.GameCategory4)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => p.UploadDate)
+                            </th>
+                            <th></th>
+                        </tr>
+                        <tr>
+                            <th>
+                                @Html.DisplayFor(model => p.Data1)
+                            </th>
+                            <th>
+                                @Html.DisplayFor(model => p.Data2)
+                            </th>
+                            <th>
+                                @Html.DisplayFor(model => p.Data3)
+                            </th>
+                            <th>
+                                @Html.DisplayFor(model => p.Data4)
+                            </th>
+                            <th>
+                                @Html.DisplayFor(model => p.UploadDate)
+                            </th>
+                            <th></th>
+                        </tr>
+                    </table>
+                </div>
+
+            }
+            <script>
+                function openData(evt, gameName) {
+                    var i, tabcontent, tablinks;
+                    tabcontent = document.getElementsByClassName("tabcontent");
+                    for (i = 0; i < tabcontent.length; i++) {
+                        tabcontent[i].style.display = "none";
+                    }
+                    tablinks = document.getElementsByClassName("tablinks");
+                    for (i = 0; i < tablinks.length; i++) {
+                        tablinks[i].className = tablinks[i].className.replace(" active", "");
+                    }
+                    document.getElementById(gameName).style.display = "block";
+                    evt.currentTarget.className += " active";
+                }
+                document.getElementById("default").click();
+
+            </script>
+            <br />
+            <p>  @Html.DisplayNameFor(model => model.LastLoginDate)  : @Html.DisplayFor(model => model.LastLoginDate)     </p>
+            <p>
+                @Html.ActionLink("Back to Profile List", "Index")
+            </p>
+            @* edit link *@
+   
+            @if (Model.DisplayName != null)
+            {
+                var currentUserId = User.Identity.GetUserId();
+                var manager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
+                var currentUser = manager.FindById(User.Identity.GetUserId());
+                if (Model.DisplayName.Equals(currentUser.ProfileName) || currentUser.Role == "Admin"){
+                 <p style="text-align:left;">   @Html.ActionLink("Edit User", "Edit", new { id = @Model.Id })</p>}
+            }
+            
+           
+
+        </div>

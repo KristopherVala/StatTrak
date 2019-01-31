@@ -1,0 +1,55 @@
+﻿@model IEnumerable<WebsiteV3.Controllers.GameBase>
+
+@{
+    ViewBag.Title = "Index";
+}
+<style>
+
+    p, h3, h2, td, tr {
+        color: black;
+        font-family:'Segoe UI';
+    }
+
+    body {
+        background-image: url('/ImgAssets/fresh_snow.png');
+        background-attachment: fixed;
+        background-color: transparent;
+    }
+</style>
+<div class="container">
+    <div class="col-12 col-lg-12">
+
+
+        <div style="width:100%; margin-top:0px;padding:0px;margin:0px;height:100%;">
+            @*  IMAGE PHOTO GOES HERE *@
+            <img src="~/ImgAssets/games-list.png" alt="GameLogo" style="width:90%;height:100px;align-content:center;max-height:100%;max-width:100%;
+                padding-left:10%;padding-bottom:0px;">
+
+
+        </div>
+  <br /><br /> <br /> <br />
+        <table class="table">
+            <tr>
+
+                @foreach (var item in Model)
+                {
+
+                    <td style="float:left;padding-right:0%;padding-left:8%; display: block;">
+               
+                       <a href='@Url.Action("Details",new { id = item.Id })'>
+                           <figure>
+                               <img class="img-circle" src="@item.AltGameArt" alt="@item.Name" title="@item.Name" style="height: 150px; width: 250px;max-height:250px;max-width:250px;" />
+                               <figcaption style="padding-left:35%;padding-top:5%;">@Html.ActionLink("More Info", "GameById", new { id = item.Id }) </figcaption>
+                           </figure>
+                        </a>
+
+                    </td>
+
+                }
+           
+
+            </tr>
+        </table>
+
+    </div>
+</div>

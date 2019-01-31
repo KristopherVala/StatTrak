@@ -1,0 +1,76 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+<style>
+    p{
+        color:black;
+        font-family:'Segoe UI';
+        margin:5px;
+    }
+     h3{
+        color:black;
+        font-family:'Segoe UI';
+    }
+      h2{
+        color:black;
+        font-family:'Segoe UI';
+    }
+
+</style>
+<div class="container"> 
+    <div class="col-12 col-md-12 col-lg-12">
+
+        <div style="width:100%; margin-top:0px;padding:0px;margin:0px;height:100%;">
+            @*  IMAGE PHOTO GOES HERE *@
+            <img src="~/ImgAssets/STAT-TRAK.png" alt="League Of Legends" style="width:90%;height:100px;align-content:center;max-height:100%;max-width:100%;
+                padding-left:10%;padding-bottom:0px;">
+
+
+        </div>
+      
+
+        <div class="jumbotron" style="background-color:transparent;text-align:center;">
+            <br />
+            <p style="font-size:16px">StatTrak allows you to upload and view global stats for all your favorite games! </p>
+            <p>View and browse what we users across the world have uploaded!</p>
+            <p>To get started, simply click the Games link at the top of the page and begin browsing!</p>
+        </div>
+
+      
+
+
+        <div style="border:solid .1px black;box-shadow:4px 4px 2px grey;background-color:#F3F3F3;">
+            <div class="row">
+                <div class="col-md-4" style="text-align:center;">
+                    <h2>Who We Are</h2>
+                    <p>
+                        StatTrak is a site for gamers by gamers. We all love to keep track of how we're doing and the competition that comes with it. Let's get started and get gaming!
+                    </p>
+                    <p>@Html.ActionLink("Get Started!", "Index", "Game")</p>
+
+                </div>
+
+
+                <div class="col-md-4" style="text-align:center">
+                    <h2>Need Help?</h2>
+                    <p>Browse the contact page if you need any help getting started</p>
+                    <p> Here you are also able to view our terms of service and privacy policy!</p>
+                    <br />
+                    <p>@Html.ActionLink("Contact", "Contact", "Home")</p>
+                </div>
+                <div class="col-md-4" style="text-align:center">
+                    <h3>Featured Game</h3>
+                    <p>
+                        <img src="~/ImgAssets/LoL_New_Logo.png" alt="League Of Legends"  style="width:300px;height:200px;align-content:center;max-height:100%;max-width:100%;">
+
+                        <br />
+                        @Html.ActionLink(
+    linkText: "Go To Stats!",
+    actionName: "Details",
+    controllerName: "Game",
+    routeValues: new { id =  3}, htmlAttributes: null)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

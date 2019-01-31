@@ -1,0 +1,146 @@
+﻿@using System.Data.Entity;
+@using Microsoft.AspNet.Identity
+@using Microsoft.AspNet.Identity.EntityFramework;
+@using System;
+@using WebsiteV3.Models
+@model WebsiteV3.Controllers.GameBase
+
+@{
+    ViewBag.Title = "Details";
+}
+
+@Styles.Render("~/Content/Site.css")
+
+<style>
+    table, th tr {
+        text-align: center;
+    }
+    
+    body{
+            background-image:url('/ImgAssets/fresh_snow.png');
+            background-attachment:fixed;      
+            background-color:transparent;
+
+      }
+     .table-responsive .table {
+    max-width: none;
+    -webkit-overflow-scrolling: touch;
+}
+</style>
+    <br />
+    <br />
+    <br />
+
+    <center> <img src='@Model.Art' alt="" style="width: 400px; align-content:center;" /> </center>
+    <br /><br />
+
+    <div class="table-responsive" style="background-color:#f0f8ff;width:100%;height:auto; z-index:-1;padding:0;margin:0;
+">
+        <table class="table">
+            <tr style="font-size:20px;color:black">
+                <th>
+
+                </th>
+
+                <th>
+                    @Model.Category1
+                    @Html.ActionLink(HttpUtility.HtmlDecode("&#9650;"), "Sort1", new { id = Model.Id })
+                    @Html.ActionLink(HttpUtility.HtmlDecode("&#9660;"), "Sort1a", new { id = Model.Id })
+                </th>
+                <th>
+                    @Model.Category2
+                    @Html.ActionLink(HttpUtility.HtmlDecode("&#9650;"), "Sort2", new { id = Model.Id })
+                    @Html.ActionLink(HttpUtility.HtmlDecode("&#9660;"), "Sort2a", new { id = Model.Id })
+                </th>
+                <th>
+                    @Model.Category3
+                    @Html.ActionLink(HttpUtility.HtmlDecode("&#9650;"), "Sort3", new { id = Model.Id })
+                    @Html.ActionLink(HttpUtility.HtmlDecode("&#9660;"), "Sort3a", new { id = Model.Id })
+                </th>
+                <th>
+                    @Model.Category4
+                    @Html.ActionLink(HttpUtility.HtmlDecode("&#9650;"), "Sort4", new { id = Model.Id })
+                    @Html.ActionLink(HttpUtility.HtmlDecode("&#9660;"), "Sort4a", new { id = Model.Id })
+                </th>
+
+                <th>
+                    Date Uploaded
+                    @Html.ActionLink(HttpUtility.HtmlDecode("&#9650;"), "Sort5", new { id = Model.Id })
+                    @Html.ActionLink(HttpUtility.HtmlDecode("&#9660;"), "Sort5a", new { id = Model.Id })
+                </th>
+                <th>
+
+                </th>
+            </tr>
+
+            @foreach (var p in Model.GameDatas)
+            {
+                <tr>
+                    <th>
+                        @Html.ActionLink(p.PlayerName, "Player", "Player", new { name = p.PlayerName }, null)
+                    </th>
+                    <th>
+                        @Html.DisplayFor(model => p.Data1)
+                    </th>
+                    <th>
+                        @Html.DisplayFor(model => p.Data2)
+                    </th>
+                    <th>
+                        @Html.DisplayFor(model => p.Data3)
+                    </th>
+                    <th>
+                        @Html.DisplayFor(model => p.Data4)
+                    </th>
+                    <th>
+                        @Html.DisplayFor(model => p.UploadDate)
+                    </th>
+              @if (p.PlayerName != null && Request.IsAuthenticated)
+              {
+                  var currentUserId = User.Identity.GetUserId();
+                  var manager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
+                  var currentUser = manager.FindById(User.Identity.GetUserId());
+                  if (p.PlayerName.Equals(currentUser.ProfileName) && p.PlayerName != null || currentUser.Role == "Admin")
+                  {
+
+                    <th>
+                        @Html.ActionLink("Edit", "Edit", new { id = p.Id, idd = Model.Id, playername = p.PlayerName })
+                    </th>}
+                  else
+                  {
+                    <th></th>}
+              }
+              else
+              {
+                <th></th>}
+                </tr>
+            }
+        </table>
+        <p>
+
+    </div>
+
+    <p>
+        
+        @{
+            if (Request.IsAuthenticated)
+            {
+                var check = false;
+                foreach (var p in Model.GameDatas)
+                {
+                    var currentUserId = User.Identity.GetUserId();
+                    var manager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
+                    var currentUser = manager.FindById(User.Identity.GetUserId());
+
+                    if (p.PlayerName == currentUser.ProfileName) { check = true; }
+                }
+                if (check == false) {
+        @Html.ActionLink("Upload data for this game |", "AddData", new { id = Model.Id }) 
+    }
+        }}
+            
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+
+
+
+

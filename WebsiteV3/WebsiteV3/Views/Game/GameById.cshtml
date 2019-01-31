@@ -1,0 +1,134 @@
+﻿@model WebsiteV3.Controllers.GameBase
+
+@{
+    ViewBag.Title = "Details";
+}
+
+@Styles.Render("~/Content/Site.css")
+
+
+<style>
+    body {
+        background-image: url('/ImgAssets/fresh_snow.png');
+        background-attachment: fixed;
+        background-color: transparent;
+    }
+
+    p, h3, h2, td, tr, h1 {
+        color: black;
+        font-family: 'Segoe UI';
+    }
+
+
+    .tab {
+        overflow: hidden;
+      
+        background-color: transparent;
+    }
+
+        /* Style the buttons inside the tab */
+        .tab button {
+            background-color: inherit;
+            float: left;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 14px 16px;
+            transition: 0.3s;
+            font-size: 17px;
+            font-family: 'Segoe UI';
+        }
+
+            /* Change background color of buttons on hover */
+            .tab button:hover {
+                background-color: #ddd;
+            }
+
+            /* Create an active/current tablink class */
+            .tab button.active {
+                background-color: #ccc;
+            }
+
+    /* Style the tab content */
+    .tabcontent {
+        display: none;
+        padding: 6px 12px;
+        border-top: none;
+    }
+</style>
+
+    <br /><br />
+
+    <center> <img src="@Model.Art" alt="" style="width: 400px; align-content:center;" /> </center>
+    <p style="text-align:center;"> @Html.ActionLink("View Game Stats!", "Details", new { @Model.Id })</p>
+
+
+    <div style="text-align:center;">
+
+        @* tabsss *@
+        <div style="width:70%;margin-left:25%;">
+            <div class="tab" style="width:65%;margin-left:25%;">
+                @{
+                    int counter = 1;
+                }
+
+                @foreach (var p in Model.Screenshots)
+            {
+                    <button class="tablinks" onclick="openData(event, '@p.Id')" id="default"> <b> @counter </b> </button>
+                    counter++;
+                }
+            </div>
+
+            @foreach (var p in Model.Screenshots)
+            {
+                <div id="@p.Id" class="tabcontent">
+
+                    <center> <img src="@p.Screenshot" alt="" style="width: 75%;height:100%;float:left;" /> </center>
+                    <br />
+                </div>
+            }
+            @* tabs end here wahoo*@
+
+        </div>
+        <br />
+        <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+        <br />
+
+
+        <div style="width:50%;margin-left:25%;">
+            <p class="lead" style="font-weight:bold;font-size:20px; border-bottom:1px solid black;">About the game  </p>
+            <h4 style="text-align:left">Released in : @Model.ReleaseDate</h4>
+
+            <div style="font-family:'Segoe UI';padding:5px;">
+                <p style="text-align:left;font-size:16px;"> @Model.GameBio </p>
+            </div>
+
+            <p style="font-size:10px;">Bio retrieved from Wikipedia</p>
+
+        </div>
+    </div>
+    <p style="text-align:center;font-size:20px;">
+        <a href="@Model.WhereToGet">Get This Game!</a>
+    </p>
+    <script>
+
+        function openData(evt, gameName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(gameName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+        document.getElementById("default").click();
+    </script>
+
+
+    <p style="vertical-align:bottom;display:table-cell;">
+        @Html.ActionLink("Back to List", "Index")
+    </p>

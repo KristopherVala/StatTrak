@@ -1,0 +1,45 @@
+﻿@using System.Data.Entity;
+@using Microsoft.AspNet.Identity
+@using Microsoft.AspNet.Identity.EntityFramework;
+@using System;
+@using WebsiteV3.Models
+
+@if (Request.IsAuthenticated)
+{
+    var currentUserId = User.Identity.GetUserId();
+    var manager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
+    var currentUser = manager.FindById(User.Identity.GetUserId());
+
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+    {
+                    @Html.AntiForgeryToken()
+
+                    <ul class="nav navbar-nav navbar-right">
+        <li style="padding:10px;">
+            @if (currentUser.ProfilePhoto.Equals("default"))
+            {
+                <img src="~/ImgAssets/defaultprofile.png" alt="No Photo Available" style="width: 50px;max-height:40px;max-width:100%"; />
+
+            }
+            else
+            {
+            <img class="img-circle" src="@currentUser.ProfilePhoto" alt="Profile" style="width:50px;height:35px;max-height:100%;max-width:100%; "/>
+            }
+        </li>
+        <li style="padding:10px;">
+            @Html.ActionLink("Hello " + currentUser.ProfileName + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+
+
+
+        </li>
+        <li style="padding:10px;"><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+    </ul>
+    }
+}
+else
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li style="padding:10px;">@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+        <li style="padding:10px;">@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+    </ul>
+}

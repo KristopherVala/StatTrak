@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - StatTrak</title>
+
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/ImgAssets")
+    @Scripts.Render("~/bundles/modernizr")
+    @RenderSection("styles", false);
+
+  <style>
+      body{
+          background-image:url(ImgAssets/fresh_snow.png);
+          background-color:transparent;
+          height:100%;
+          min-height:100%;
+          margin:0px;
+          padding-bottom:0px;
+         overflow:hidden;    
+      }
+      html{
+          height:100%;
+          min-height:100%;
+      }
+      ul{
+      }
+      li{
+      }
+    
+
+  </style>  
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark"style="position:fixed;width:100%;top:0px;height:auto;z-index:1;margin-bottom:0px;padding-bottom:20px; font-size:1.2vw;-webkit-text-size-adjust:200%">
+            <img  src='@Url.Content("~/ImgAssets/stattrak.png")' style="width:5%;height:5%;align-content:center;padding:0;margin:0;margin-right:0px;"  />
+
+            <div class="" id="navbarColor02" style="position:fixed;top:0px;">
+              
+                    <div class="navbar-nav" id="navbarColor02" style="position:fixed;top:0px;">
+                        @* -- collapse is whats causing links to dissapear*@
+
+                        <ul class="navbar-nav mr-auto">
+                            <li class="nav-item active" style="padding:10px">
+                                @Html.ActionLink("``````````", "Index", "Home", new { @style = "color:transparent;" })
+                            </li>
+                            <li style="padding:10px;">@Html.ActionLink("Home", "Index", "Home")</li>
+                            <li style="padding:10px;">@Html.ActionLink("Games", "Index", "Game")</li>
+                            <li style="padding:10px;">@Html.ActionLink("Profiles", "Index", "Player")</li>
+                            <li style="padding:10px;">@Html.ActionLink("Contact", "Contact", "Home")</li>
+
+                        </ul>
+
+                        @Html.Partial("_LoginPartial")
+                    </div>
+
+            </div>
+
+</nav>
+
+    <div class="container body-content" style="background-image:url(/ImgAssets/wall4.png);height:95%;margin-top:0px; 
+        border:2px solid black;box-shadow:5px 5px 3px black;z-index:-1;overflow:scroll;">
+
+            @RenderBody()
+            <hr />
+        </div>
+    <div bottom style="position:fixed;bottom:0;">
+    <footer>
+    <p>&copy; @DateTime.Now.Year - StatTrak</p>
+</footer> </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+
+</html>
